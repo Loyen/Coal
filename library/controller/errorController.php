@@ -1,6 +1,6 @@
 <?php
-class errorController {
-	public static function index($code = 404) {
+class errorController extends controller {
+	public function index($code = 404) {
 		if ($code == 403) {
 			$title = '403 Page forbidden';
 			$description = 'The page requested requires extra permissions to be seen.';

@@ -1,6 +1,6 @@
 <?php
-class dashboardController {
-	public static function index() {
+class dashboardController extends controller {
+	public function index() {
 		return theme::render('default');
 	}
 }

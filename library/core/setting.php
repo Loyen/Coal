@@ -1,6 +1,6 @@
 <?php
 class setting {
-	public static $vars = null;
+	private static $vars = null;
 
 	public static function fetch() {
 		if ($json_decoded = json_parse_file(CONFIG.'settings.json')) {

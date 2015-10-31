@@ -1,6 +1,6 @@
 <?php
 class hook {
-	public static $hooks = null;
+	private static $hooks = null;
 
 	public static function fetch() {
 		if ($json_decoded = json_parse_file(CONFIG.'hooks.json')) {
@@ -59,9 +59,20 @@ class hook {
 
 				$action = $hook->action;
 
+				if (method_exists($controller, '_authorization')) {
+					if (!call_user_func([$controller, '_authorization']))
+						return 403;
+				}
+
 				if (method_exists($controller, $action)) {
+					if (method_exists($controller, '_before'))
+						return call_user_func([$controller, '_before']);
+
 					$args =(isset($hook->args) ? $hook->args : []);
-					return call_user_func_array($controller.'::'.$action, $args);
+					return call_user_func_array([$controller, $action], $args);
+
+					if (method_exists($controller, '_after'))
+						return call_user_func([$controller, '_after']);
 				}
 			}
 		}

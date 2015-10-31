@@ -1,7 +1,6 @@
 <?php
 class theme {
-	public static
-		$hooks = null;
+	private static $hooks = null;
 
 	public static function load($theme = null) {
 		if ($theme === null)

@@ -3,6 +3,8 @@
 
 	"theme": "nitrogen",
 
+	"plugins": [],
+
 	"hook": {
 		"default": "home",
 		"action": "index",
