@@ -59,12 +59,16 @@ class hook {
 
 				$action = $hook->action;
 
+				if (isset($hook->theme))
+					theme::load($hook->theme);
+
 				if (method_exists($controller, '_authorization')) {
 					if (!call_user_func([$controller, '_authorization']))
 						return 403;
 				}
 
 				if (method_exists($controller, $action)) {
+
 					if (method_exists($controller, '_before'))
 						return call_user_func([$controller, '_before']);
 

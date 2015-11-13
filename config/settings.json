@@ -1,7 +1,7 @@
 {
 	"name": "Coal",
 
-	"theme": "nitrogen",
+	"theme": "twentyfifteen",
 
 	"plugins": [],
 
@@ -9,6 +9,11 @@
 		"default": "home",
 		"action": "index",
 		"parameter": "q"
+	},
+
+	"admin": {
+		"theme": "dashboard",
+		"home": "home"
 	},
 
 	"database": {

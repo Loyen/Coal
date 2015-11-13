@@ -1,15 +1,24 @@
 <?php
 class theme {
-	private static $hooks = null;
+	private static
+		$theme = null,
+		$hooks = null;
 
 	public static function load($theme = null) {
+		if (self::$theme === setting::get('theme', 'default'))
+			return true;
+
 		if ($theme === null)
 			$theme = setting::get('theme', 'default');
+
+		self::$theme = $theme;
+		self::$hooks = [];
 
 		if ($hooks = json_parse_file(THEME.$theme.DS.'hooks.json')) {
 			self::$hooks = $hooks;
 			return true;
 		}
+
 
 		return false;
 	}
@@ -40,7 +49,7 @@ class theme {
 	public static function render($hookname, $vars = []) {
 		$output = '';
 		if ($hook = self::hook($hookname, $vars)) {
-			$file = THEME.setting::get('theme', 'default').DS.(isset($hook->path) ? $hook->path.DS : '').$hook->file.'.tpl';
+			$file = THEME.self::$theme.DS.(isset($hook->path) ? $hook->path.DS : '').$hook->file.'.tpl';
 			$vars = $hook->args;
 			if (file_exists($file))
 			{
