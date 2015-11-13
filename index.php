@@ -3,6 +3,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(__FILE__).DS);
 define('CONFIG', ROOT.'config'.DS);
+define('CACHE', ROOT.'cache'.DS);
 define('LIBRARY', ROOT.'library'.DS);
 define('CORE', LIBRARY.'core'.DS);
 define('PLUGIN', LIBRARY.'plugin'.DS);
