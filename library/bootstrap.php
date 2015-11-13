@@ -2,6 +2,7 @@
 // Load
 require_once(CORE.'cache.php');
 require_once(CORE.'controller.php');
+require_once(CORE.'error.php');
 require_once(CORE.'hook.php');
 require_once(CORE.'plugin.php');
 require_once(CORE.'session.php');
