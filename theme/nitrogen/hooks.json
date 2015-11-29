@@ -16,8 +16,12 @@
 		},
 		"template": "template-default"
 	},
-	"navigation": {
-		"file": "navigation",
+	"navigation-sidebar": {
+		"file": "navigation-sidebar",
+		"path": "block"
+	},
+	"navigation-header": {
+		"file": "navigation-header",
 		"path": "block"
 	},
 	"template-default": {

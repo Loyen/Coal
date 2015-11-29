@@ -1,0 +1,24 @@
+/*
+ * Tables
+ *
+ */
+
+.table {
+	width: 100%;
+}
+
+.table th,
+.table td {
+	padding: 1em;
+	text-align: left;
+}
+
+.table thead {
+	border-bottom-width: 0.2em;
+	border-bottom-style: solid;
+}
+
+.table tbody tr {
+	border-bottom-width: 0.1em;
+	border-bottom-style: solid;
+}

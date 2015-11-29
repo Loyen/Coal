@@ -1,0 +1,55 @@
+/* start button */
+
+.button {
+	background: rgb(250, 250, 250);
+	border: 1px solid rgb(100, 100, 100);
+	border-radius: 0.2em;
+	color: rgb(50, 50, 50);
+	cursor: pointer;
+
+	display: inline-block;
+	font-weight: bold;
+	line-height: 1em;
+
+	margin-bottom: 0.1em;
+	margin-top: 0.1em;
+
+	padding: 0.5em;
+
+	vertical-align: middle;
+}
+
+.button:hover {
+	background-color: rgb(225, 225, 225);
+	text-decoration: none;
+}
+
+.button:active {
+	background-color: rgb(200, 200, 200);
+}
+
+.button-small { font-size: 0.65em; }
+.button-medium { font-size: 0.85em; }
+.button-large { font-size: 1.5em; }
+
+.button-group {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.button-group .button {
+	border-radius: 0;
+	float: left;
+}
+
+.button-group .button:first-child {
+	border-bottom-left-radius: 0.2em;
+	border-top-left-radius: 0.2em;
+}
+
+.button-group .button:last-child {
+	border-bottom-right-radius: 0.2em;
+	border-top-right-radius: 0.2em;
+}
+
+/* end button */

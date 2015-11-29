@@ -1,0 +1,22 @@
+/* start blink */
+
+.u-blink {
+	opacity: 1;
+	animation: blink 1s infinite;
+}
+
+@keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 0.2; }
+}
+
+/* end blink */
+
+/* start float */
+
+.u-floatLeft { float: left; }
+.u-floatRight { float: right; }
+.u-floatClear { float: clear; }
+
+/* end float */
+
