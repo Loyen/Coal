@@ -27,6 +27,8 @@ class hook {
 		if (is_null($url))
 			$url = url();
 
+		$url = trim($url, '/');
+
 		if (isset(self::$hooks->$url)) {
 			$hook = self::$hooks->$url;
 			$hook->url = $url;

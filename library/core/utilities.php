@@ -36,7 +36,7 @@ function json_parse_file($file) {
 function url($url = null) {
 	if ($url === null) {
 		$hook_param = hook::setting('parameter', 'q');
-		if (isset($_GET[$hook_param]) && !empty($_GET[$hook_param]))
+		if (isset($_GET[$hook_param]) && !empty($_GET[$hook_param]) && $_GET[$hook_param] !== '/')
 			$url = $_GET[$hook_param];
 		else
 			$url = hook::setting('default', 'home');
