@@ -12,6 +12,9 @@ require_once(CORE.'theme.php');
 require_once(CORE.'user.php');
 require_once(CORE.'utilities.php');
 
+// Start session
+session::start();
+
 // Load plugins
 plugin::autoload();
 
@@ -21,8 +24,11 @@ if (is_int($output)) {
 	if ($output === 403)
 		$output = hook::execute('403');
 	elseif ($output === 404)
-		$output = hook::execute('404');
+		$output =  hook::execute('404');
 }
+
+// Write session
+session::write();
 
 // Print output
 echo $output;
