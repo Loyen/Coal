@@ -1,2 +1,6 @@
-<h1><?php echo $title; ?></h1>
-<p><?php echo $description; ?></p>
+<div class="card raise-1">
+	<div class="card-header"><?php echo $title; ?></div> <!-- .card-header -->
+	<div class="card-body">
+		<p><?php echo $description; ?></p>
+	</div> <!-- .card-body -->
+</div> <!-- .card -->
