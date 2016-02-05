@@ -85,7 +85,8 @@ class user {
 		// Create anonymous user if no user loaded
 		if (empty(self::$user)) {
 			self::set('id', 0);
-			self::set('username', 'Anonymous');
+			self::set('name', 'Anonymous');
+			self::set('username', 'anonymous');
 
 			session::set('user', self::$user);
 		}
