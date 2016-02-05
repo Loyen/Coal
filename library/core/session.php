@@ -81,13 +81,13 @@ class session {
 	 * Start session
 	 **/
 	public static function start() {
-		if (!self::$active && session_start())
-		{
-			self::$active = true;
-			self::fetch();
-		}
+		if (self::$active) return true;
+		if (!session_start()) return false;
 
-		return false;
+		self::$active = true;
+		self::fetch();
+
+		return true;
 	}
 
 	/**
@@ -101,8 +101,12 @@ class session {
 	 * Delete session data
 	 **/
 	public static function end() {
+		if (!self::$active) return false;
+
 		session_destroy();
 		self::$vars = [];
 		self::$active = false;
+
+		return true;
 	}
 }
