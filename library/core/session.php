@@ -1,5 +1,6 @@
 <?php
 class session {
+	public static $active = false;
 	public static $vars = [];
 
 	/**
@@ -14,12 +15,8 @@ class session {
 	 * @return mixed variable found on key or $default value
 	 **/
 	public static function get($key, $default = null, $strict = false) {
-		if (isset(self::$vars[$key]))
-		{
-			if ($strict && empty(self::$vars[$key])) return $default;
-
+		if (self::has($key, $strict))
 			return self::$vars[$key];
-		}
 
 		return $default;
 	}
@@ -34,6 +31,19 @@ class session {
 	 **/
 	public static function set($key, $value) {
 		self::$vars[$key] = $value;
+	}
+
+	/**
+	 * Check if session data has key
+	 *
+	 * @param string $key
+	 *  Key to set
+	 * @param bool $strict
+	 *  If strict check return default if value is empty
+	 * @return bool if exists (and if strict, is not empty) true else false
+	 **/
+	public static function has($key, $strict = false) {
+		return (isset(self::$vars[$key]) ? ($strict ? !empty(self::$vars[$key]) : true) : false);
 	}
 
 	/**
@@ -71,15 +81,28 @@ class session {
 	 * Start session
 	 **/
 	public static function start() {
-		session_start();
-		self::fetch();
+		if (!self::$active && session_start())
+		{
+			self::$active = true;
+			self::fetch();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if session is active
+	 **/
+	public static function active() {
+		return self::$active;
 	}
 
 	/**
 	 * Delete session data
 	 **/
 	public static function end() {
-		self::$vars = [];
 		session_destroy();
+		self::$vars = [];
+		self::$active = false;
 	}
 }

@@ -15,6 +15,9 @@ require_once(CORE.'utilities.php');
 // Start session
 session::start();
 
+// Get user data
+user::load();
+
 // Load plugins
 plugin::autoload();
 
