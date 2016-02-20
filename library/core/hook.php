@@ -45,8 +45,10 @@ class hook {
 
 			$valid_level = 0;
 			for ($i=0;$i<count($url_pieces);$i++) {
-				if ($hook_url_pieces[$i] !== $url_pieces[$i] && $hook_url_pieces[$i] !== '*')
+				if ($hook_url_pieces[$i] !== $url_pieces[$i] && $hook_url_pieces[$i] !== '*') {
+					$valid_level = 0;
 					break;
+				}
 
 				$valid_level++;
 			}
