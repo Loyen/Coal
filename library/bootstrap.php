@@ -24,7 +24,7 @@ $output = hook::route();
 
 // If error code, run it through the set error controller
 if (is_int($output))
-	$output = self::execute(hook::setting('error', 'error'), null, [$output]);
+	$output = hook::execute(hook::setting('error', 'error'), null, [$output]);
 
 
 // Write session
