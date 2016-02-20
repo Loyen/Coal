@@ -33,13 +33,15 @@ class hook {
 		$hook_valid = null;
 		$hook_valid_level = 0;
 		foreach (self::$hooks as $hook_url => $hook) {
-			$hook->url = $hook_url;
+			$hook->url = trim($hook_url, '/');
 			if ($hook->url === $url) {
 				$hook_valid = $hook;
 				break;
 			}
 
 			$hook_url_pieces = explode('/', $hook->url);
+
+			if (count($hook_url_pieces) > count($url_pieces)) continue;
 
 			$valid_level = 0;
 			for ($i=0;$i<count($url_pieces);$i++) {
