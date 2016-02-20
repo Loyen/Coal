@@ -5,6 +5,7 @@ require_once(CORE.'controller.php');
 //require_once(CORE.'error.php');
 require_once(CORE.'file.php');
 require_once(CORE.'hook.php');
+require_once(CORE.'http.php');
 require_once(CORE.'plugin.php');
 require_once(CORE.'session.php');
 require_once(CORE.'setting.php');
