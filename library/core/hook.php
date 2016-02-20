@@ -52,9 +52,10 @@ class hook {
 	public static function execute($url = null) {
 		if ($hook = self::get($url)) {
 			if (isset($hook->controller)) {
+				$controller_path = APPLICATION.$hook->controller.DS.'_controller.php';
 				$controller = $hook->controller.'Controller';
-				if (file_exists(CONTROLLER.$controller.'.php'))
-					require_once(CONTROLLER.$controller.'.php');
+				if (file_exists($controller_path))
+					require_once($controller_path);
 
 				if (!isset($hook->action))
 					$hook->action = self::setting('action', 'index');
@@ -69,16 +70,21 @@ class hook {
 						return 403;
 				}
 
-				if (method_exists($controller, $action)) {
+				if (property_exists($controller, 'plugins') && method_exists($controller, '_loadPlugins')) {
+					call_user_func([$controller, '_loadPlugins']);
+				}
 
+				if (method_exists($controller, $action)) {
 					if (method_exists($controller, '_before'))
-						return call_user_func([$controller, '_before']);
+						call_user_func([$controller, '_before']);
 
 					$args =(isset($hook->args) ? $hook->args : []);
-					return call_user_func_array([$controller, $action], $args);
+					$output = call_user_func_array([$controller, $action], $args);
 
 					if (method_exists($controller, '_after'))
-						return call_user_func([$controller, '_after']);
+						call_user_func([$controller, '_after']);
+
+					return $output;
 				}
 			}
 		}

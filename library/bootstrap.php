@@ -19,9 +19,6 @@ session::start();
 // Get user data
 user::load();
 
-// Load plugins
-plugin::autoload();
-
 // Execute page
 $output = hook::execute();
 if (is_int($output)) {

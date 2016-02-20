@@ -14,14 +14,4 @@ class plugin {
 
 		return false;
 	}
-
-	public static function autoload() {
-		$plugins = setting::get('plugins', []);
-
-		if (is_array($plugins)) {
-			foreach ($plugins as $plugin) {
-				self::load($plugin);
-			}
-		}
-	}
 }
