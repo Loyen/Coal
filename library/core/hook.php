@@ -4,7 +4,7 @@ class hook {
 
 	public static function fetch() {
 		if ($json_decoded = json_parse_file(CONFIG.'hooks.json')) {
-			self::$hooks = $json_decoded;
+			self::$hooks = (array) $json_decoded;
 			return true;
 		}
 
@@ -29,8 +29,34 @@ class hook {
 
 		$url = trim($url, '/');
 
-		if (isset(self::$hooks->$url)) {
-			$hook = self::$hooks->$url;
+		$url_pieces = explode('/', $url);
+		$hook_valid = null;
+		$hook_valid_level = 0;
+		foreach (self::$hooks as $hook_url => $hook) {
+			$hook->url = $hook_url;
+			if ($hook->url === $url) {
+				$hook_valid = $hook;
+				break;
+			}
+
+			$hook_url_pieces = explode('/', $hook->url);
+
+			$valid_level = 0;
+			for ($i=0;$i<count($url_pieces);$i++) {
+				if ($hook_url_pieces[$i] !== $url_pieces[$i] && $hook_url_pieces[$i] !== '*')
+					break;
+
+				$valid_level++;
+			}
+
+			if ($valid_level === 0 || $valid_level < $hook_valid_level) continue;
+
+			$hook_valid = $hook;
+			$hook_valid_level = $valid_level;
+		}
+
+		if ($hook_valid) {
+			$hook = $hook_valid;
 			$hook->url = $url;
 			if (isset($hook->args) && !empty($hook->args)) {
 				// Convert object to string
@@ -66,8 +92,10 @@ class hook {
 					theme::load($hook->theme);
 
 				if (method_exists($controller, '_authorization')) {
-					if (!call_user_func([$controller, '_authorization']))
-						return 403;
+					if (!call_user_func([$controller, '_authorization'])) {
+						http::status_code(403);
+						return;
+					}
 				}
 
 				if (property_exists($controller, 'plugins') && method_exists($controller, '_loadPlugins')) {
@@ -89,6 +117,7 @@ class hook {
 			}
 		}
 
-		return 404;
+		http::status_code(404);
+		return;
 	}
 }

@@ -1,16 +1,11 @@
 {
 	"home": {
 		"controller": "default",
-		"action": "index",
-		"args": [0,1]
+		"action": "index"
 	},
-	"403": {
+	"error/*": {
 		"controller": "error",
-		"args": ["403"]
-	},
-	"404": {
-		"controller": "error",
-		"args": ["404"]
+		"args": [1]
 	},
 	"admin": {
 		"controller": "dashboard",
