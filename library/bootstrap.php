@@ -20,7 +20,12 @@ session::start();
 user::load();
 
 // Execute page
-$output = hook::execute();
+$output = hook::route();
+
+// If error code, run it through the set error controller
+if (is_int($output))
+	$output = self::execute(hook::setting('error', 'error'), null, [$output]);
+
 
 // Write session
 session::write();

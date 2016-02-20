@@ -20,7 +20,7 @@ class hook {
 		return null;
 	}
 
-	public static function get($url = null) {
+	public static function route($url = null) {
 		if (self::$hooks === null)
 			self::fetch();
 
@@ -71,55 +71,48 @@ class hook {
 			} else {
 				$hook->args = [];
 			}
-			return $hook;
+
+			if (!isset($hook->action)) $hook->action = null;
+
+			return self::execute($hook->controller, $hook->action, $hook->args);
 		}
 
-		return false;
+		return 404;
 	}
 
-	public static function execute($url = null) {
-		if ($hook = self::get($url)) {
-			if (isset($hook->controller)) {
-				$controller_path = APPLICATION.$hook->controller.DS.'_controller.php';
-				$controller = $hook->controller.'Controller';
-				if (file_exists($controller_path))
-					require_once($controller_path);
+	public static function execute($controller, $action = null, $args = []) {
+		if ($controller) {
+			$controller_path = APPLICATION.$controller.DS.'_controller.php';
+			$controller_name = $controller.'Controller';
+			if (file_exists($controller_path))
+				require_once($controller_path);
 
-				if (!isset($hook->action))
-					$hook->action = self::setting('action', 'index');
+			if ($action === null)
+				$action = self::setting('action', 'index');
 
-				$action = $hook->action;
-
-				if (isset($hook->theme))
-					theme::load($hook->theme);
-
-				if (method_exists($controller, '_authorization')) {
-					if (!call_user_func([$controller, '_authorization'])) {
-						http::status_code(403);
-						return;
-					}
+			if (method_exists($controller_name, '_authorization')) {
+				if (!call_user_func([$controller_name, '_authorization'])) {
+					return 403;
 				}
+			}
 
-				if (property_exists($controller, 'plugins') && method_exists($controller, '_loadPlugins')) {
-					call_user_func([$controller, '_loadPlugins']);
-				}
+			if (property_exists($controller_name, 'plugins') && method_exists($controller, '_loadPlugins')) {
+				call_user_func([$controller_name, '_loadPlugins']);
+			}
 
-				if (method_exists($controller, $action)) {
-					if (method_exists($controller, '_before'))
-						call_user_func([$controller, '_before']);
+			if (method_exists($controller_name, $action)) {
+				if (method_exists($controller_name, '_before'))
+					call_user_func([$controller_name, '_before']);
 
-					$args =(isset($hook->args) ? $hook->args : []);
-					$output = call_user_func_array([$controller, $action], $args);
+				$output = call_user_func_array([$controller_name, $action], $args);
 
-					if (method_exists($controller, '_after'))
-						call_user_func([$controller, '_after']);
+				if (method_exists($controller_name, '_after'))
+					call_user_func([$controller_name, '_after']);
 
-					return $output;
-				}
+				return $output;
 			}
 		}
 
-		http::status_code(404);
-		return;
+		return 404;
 	}
 }

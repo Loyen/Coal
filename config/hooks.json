@@ -9,7 +9,6 @@
 	},
 	"admin": {
 		"controller": "dashboard",
-		"action": "index",
-		"theme": "nitrogen"
+		"action": "index"
 	}
 }
