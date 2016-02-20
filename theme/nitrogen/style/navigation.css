@@ -13,11 +13,16 @@
 	color: #212121;
 	display: block;
 	text-decoration: none;
+	transition: background-color 0.1s cubic-bezier(0.5, 0, 0.5, 1);
 }
 
 .navigation-link.is-selected,
 .navigation-link:hover {
 	background-color: #E0E0E0;
+}
+
+.navigation-link:active {
+	background-color: #BDBDBD;
 }
 
 .navigation-itemSeparator {
@@ -83,6 +88,10 @@
 .navigation--header .navigation-link.is-selected,
 .navigation--header .navigation-link:hover {
 	background-color: #E53935;
+}
+
+.navigation--header .navigation-link:active {
+	background-color: #D32F2F;
 }
 
 .navigation--header .navigation-itemSeparator {
