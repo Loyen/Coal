@@ -1,6 +1,6 @@
 <div class="navigation navigation--sidebar raise-5">
 	<div class="navigation-item">
-		<a class="navigation-link" href="javascript:void(0);"><span class="icon icon--home"></span> Home</a>
+		<a class="navigation-link" href="<?=url('home');?>"><span class="icon icon--home"></span> Home</a>
 	</div>
 
 	<div class="navigation-itemSeparator"></div>

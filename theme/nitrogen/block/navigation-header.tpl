@@ -6,6 +6,6 @@
 	<div class="navigation-itemSeparator"></div>
 
 	<div class="navigation-item">
-		<a class="navigation-link" href="javascript:void(0);">Site</a>
+		<a class="navigation-link" href="<?=url('home');?>">Site</a>
 	</div>
 </div>

@@ -20,12 +20,22 @@ class hook {
 		return null;
 	}
 
+	public static function url() {
+		$hook_param = hook::setting('parameter', 'q');
+		if (isset($_GET[$hook_param]) && !empty($_GET[$hook_param]) && $_GET[$hook_param] !== '/')
+			$url = $_GET[$hook_param];
+		else
+			$url = hook::setting('default');
+
+		return $url;
+	}
+
 	public static function route($url = null) {
 		if (self::$hooks === null)
 			self::fetch();
 
 		if (is_null($url))
-			$url = url();
+			$url = self::url();
 
 		$url = trim($url, '/');
 

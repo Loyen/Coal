@@ -33,13 +33,22 @@ function json_parse_file($file) {
 	return false;
 }
 
-function url($url = null) {
+function url($url = null, $args = []) {
 	if ($url === null) {
-		$hook_param = hook::setting('parameter', 'q');
-		if (isset($_GET[$hook_param]) && !empty($_GET[$hook_param]) && $_GET[$hook_param] !== '/')
-			$url = $_GET[$hook_param];
-		else
-			$url = hook::setting('default', 'home');
+		$url = hook::url();
+	}
+
+	if ($url === hook::setting('default')) {
+		$url = '/';
+	} else {
+		$url = '/'.$url;
+	}
+
+	if (mb_strpos($url, '*')) {
+		$limit = 1;
+		while (!empty($args)) {
+			$url = str_replace('*', array_shift($args), $url, $limit);
+		}
 	}
 
 	return $url;
