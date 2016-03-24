@@ -1,12 +1,18 @@
 <?php
 class file {
-	public static function exists($file) {
-		return file_exists($file);
+	public $file = null;
+
+	public function __construct($file = null) {
+		$this->file = $file;
 	}
 
-	public static function read($file) {
-		if (self::exists($file)) {
-			if ($content = file_get_contents($file)) {
+	public function exists() {
+		return file_exists($this->file);
+	}
+
+	public function read() {
+		if ($this->exists($this->file)) {
+			if ($content = file_get_contents($this->file)) {
 				return $content;
 			}
 		}
@@ -14,18 +20,18 @@ class file {
 		return false;
 	}
 
-	public static function write($file, $value, $force = true) {
-		if (!self::exists($file) || $force) {
-			if (is_string($value) && file_put_contents($file, $value, LOCK_EX))
+	public function write($value, $force = true) {
+		if (!$this->exists($this->file) || $force) {
+			if (is_string($value) && file_put_contents($this->file, $value, LOCK_EX))
 				return true;
 		}
 
 		return false;
 	}
 
-	public static function delete($file) {
-		if (self::exists($file)) {
-			if (unlink($file)) {
+	public function delete() {
+		if ($this->exists($this->file)) {
+			if (unlink($this->file)) {
 				return true;
 			}
 		}

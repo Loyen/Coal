@@ -34,11 +34,14 @@ function json_parse_file($file) {
 }
 
 function url($url = null, $args = []) {
+	static $hook;
+	if (!$hook) $hook = new hook();
+
 	if ($url === null) {
-		$url = hook::url();
+		$url = $hook->url();
 	}
 
-	if ($url === hook::setting('default')) {
+	if ($url === $hook->setting('default')) {
 		$url = '/';
 	} else {
 		$url = '/'.$url;

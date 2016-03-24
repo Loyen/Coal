@@ -1,8 +1,9 @@
 <?php
 class errorController extends controller {
+	public $helpers = ['http'];
 	public function index($code = 404) {
-		if (http::status_code($code) !== false) {
-			$codes = http::$status_codes;
+		if ($this->httpHelper->setStatusCode($code) !== false) {
+			$codes = $this->httpHelper->status_codes;
 			$title = $codes[$code].' (Code: '.$code.')';
 			$description = '';
 

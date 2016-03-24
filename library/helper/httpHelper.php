@@ -1,6 +1,6 @@
 <?php
-class http {
-	static $status_codes = [
+class httpHelper extends helper {
+	public $status_codes = [
 		200 => 'OK',
 		201 => 'Created',
 		202 => 'Accepted',
@@ -42,25 +42,25 @@ class http {
 		505 => 'HTTP Version not supported',
 	];
 
-	public static function header($value) {
-		return header($value);
-	}
-
-	public static function protocol() {
+	public function getProtocol() {
 		return $_SERVER['SERVER_PROTOCOL'];
 	}
 
-	public static function status_code($code = 200) {
-		if (!isset(self::$status_codes[$code])) return false;
+	public function setHeader($value) {
+		return header($value);
+	}
 
-		header(self::protocol().' '.$code.' '.self::$status_codes[$code]);
+	public function setStatusCode($code = 200) {
+		if (!isset($this->status_codes[$code])) return false;
+
+		$this->setHeader($this->getProtocol().' '.$code.' '.$this->status_codes[$code]);
 		return true;
 	}
 
-	public static function redirect($url, $code = 301) {
+	public function redirect($url, $code = 301) {
 		if (session::active()) session::write();
 
-		self::status_code($code);
-		self::header('Location: '.$url);
+		$this->setStatusCode($code);
+		$this->setHeader('Location: '.$url);
 	}
 }

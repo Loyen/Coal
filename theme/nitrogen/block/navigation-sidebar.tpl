@@ -18,10 +18,6 @@
 		<a class="navigation-link" href="javascript:void(0);"><span class="icon icon--settings"></span> Settings</a>
 	</div>
 	<div class="navigation-item">
-		<?php if (user::anonymous()) { ?>
-			<a class="navigation-link" href="javascript:void(0);"><span class="icon icon--login"></span> Login</a>
-		<?php } else { ?>
-			<a class="navigation-link" href="javascript:void(0);"><span class="icon icon--logout"></span> Logout</a>
-		<?php } ?>
+		<a class="navigation-link" href="javascript:void(0);"><span class="icon icon--login"></span> Login</a>
 	</div>
 </div>

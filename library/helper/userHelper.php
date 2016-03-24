@@ -1,6 +1,6 @@
 <?php
-class user {
-	private static $user = [];
+class userHelper extends helper {
+	private $user = [];
 
 	/**
 	 * Get user data by key
@@ -13,7 +13,7 @@ class user {
 	 *  If strict check return default if value is empty
 	 * @return mixed variable found on key or $default value
 	 **/
-	public static function get($key, $default = null, $strict = false) {
+	public function get($key, $default = null, $strict = false) {
 		if (self::has($key, $strict))
 			return self::$user[$key];
 
@@ -28,7 +28,7 @@ class user {
 	 * @param mixed $value
 	 *  Value to set
 	 **/
-	public static function set($key, $value) {
+	public function set($key, $value) {
 		self::$user[$key] = $value;
 		session::set('user', self::$user);
 	}
@@ -42,7 +42,7 @@ class user {
 	 *  If strict check return default if value is empty
 	 * @return bool if exists (and if strict, is not empty) true else false
 	 **/
-	public static function has($key, $strict = false) {
+	public function has($key, $strict = false) {
 		return (isset(self::$user[$key]) ? ($strict ? !empty(self::$user[$key]) : true) : false);
 	}
 
@@ -53,7 +53,7 @@ class user {
 	 *  Key to delete
 	 * @return bool true if successful else false
 	 **/
-	public static function delete($key) {
+	public function delete($key) {
 		if (isset(self::$user[$key]))
 		{
 			unset(self::$user[$key]);
@@ -69,14 +69,14 @@ class user {
 	 *
 	 * @return string user status
 	 **/
-	public static function anonymous() {
+	public function anonymous() {
 		return (self::get('id', 0) === 0);
 	}
 
 	/**
 	 * Load user from session data
 	 **/
-	public static function load() {
+	public function load() {
 		if (session::active())
 		{
 			self::$user = session::get('user', []);

@@ -7,7 +7,7 @@ define('CONFIG', ROOT.'config'.DS);
 define('CACHE', ROOT.'cache'.DS);
 define('LIBRARY', ROOT.'library'.DS);
 define('CORE', LIBRARY.'core'.DS);
-define('PLUGIN', LIBRARY.'plugin'.DS);
+define('HELPER', LIBRARY.'helper'.DS);
 define('THEME', ROOT.'theme'.DS);
 
 // Load bootstrap
