@@ -58,7 +58,7 @@ class http {
 	}
 
 	public static function redirect($url, $code = 301) {
-		session::write();
+		if (session::active()) session::write();
 
 		self::status_code($code);
 		self::header('Location: '.$url);
