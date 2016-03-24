@@ -4,13 +4,15 @@ class dispatcher {
 	public function __construct() {
 		$this->hook = new hook();
 	}
-	public function dispatch() {
-		$route = $this->hook->route();
+	public function dispatch($code = 200) {
+		if ($code === 200) {
+			$route = $this->hook->route();
 
-		return $this->execute($route->controller, $route->action, $route->args);
-	}
+			if ($route) return $this->execute($route->controller, $route->action, $route->args);
 
-	public function execute_error($code = 404) {
+			$code = 404;
+		}
+
 		return $this->execute($this->hook->setting('error', 'error'), null, [$code]);
 	}
 

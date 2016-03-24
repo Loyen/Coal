@@ -89,6 +89,6 @@ class hook {
 			return $hook;
 		}
 
-		return 404;
+		return null;
 	}
 }
