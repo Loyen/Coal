@@ -12,15 +12,15 @@ class dispatcher {
 		if (!$route)
 			return $this->dispatch_error(404);
 
-		$appController = $this->initController($route->controller, $route->action);
+		$module = $this->initModule($route->module, $route->action);
 
-		if (!$appController)
+		if (!$module)
 			return $this->dispatch_error(404);
 
-		if (!$appController->_authorization())
+		if (!$module->_authorization())
 			return $this->dispatch_error(403);
 
-		return $this->executeController($appController, $route->action, $route->args);
+		return $this->executeModule($module, $route->action, $route->args);
 	}
 
 	public function dispatch_error($code = 404) {
@@ -37,12 +37,12 @@ class dispatcher {
 			if (!$route)
 				throw new Exception(404);
 
-			$appController = $this->initController($route->controller, $route->action);
+			$module = $this->initModule($route->module, $route->action);
 
-			if (!$appController)
+			if (!$module)
 				throw new Exception(404);
 
-			if (!$appController->_authorization())
+			if (!$module->_authorization())
 				throw new Exception(403);
 		} catch (Exception $e) {
 			$http = new http();
@@ -50,30 +50,30 @@ class dispatcher {
 			exit;
 		}
 
-		return $this->executeController($appController, $route->action, $route->args);
+		return $this->executeModule($module, $route->action, $route->args);
 	}
 
-	public function initController($controller, $action) {
-		$controller_path = APPLICATION.$controller.DS.'_controller.php';
-		$controller_name = $controller.'Controller';
-		if (file_exists($controller_path))
-			require_once($controller_path);
+	public function initModule($module, $action) {
+		$module_name = $module.'Module';
+		$module_path = MODULE.$module_name.'.php';
+		if (file_exists($module_path))
+			require_once($module_path);
 
-		if (!class_exists($controller_name))
+		if (!class_exists($module_name))
 			return null;
 
-		$appController = new $controller_name();
+		$module = new $module_name();
 
-		if (!method_exists($appController, $action))
+		if (!method_exists($module, $action))
 			return null;
 
-		return $appController;
+		return $module;
 	}
 
-	public function executeController($controller, $action, $args = []) {
-		$controller->_before();
-		$output = call_user_func_array([$controller, $action], $args);
-		$controller->_after();
+	public function executeModule($module, $action, $args = []) {
+		$module->_before();
+		$output = call_user_func_array([$module, $action], $args);
+		$module->_after();
 		return $output;
 	}
 }

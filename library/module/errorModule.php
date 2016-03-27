@@ -1,5 +1,5 @@
 <?php
-class errorController extends controller {
+class errorModule extends module {
 	public $helpers = ['http'];
 	public function index($code = 404) {
 		if ($this->httpHelper->setStatusCode($code) !== false) {

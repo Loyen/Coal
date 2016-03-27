@@ -1,7 +1,7 @@
 <?php
 // Load
 require_once(CORE.'cache.php');
-require_once(CORE.'controller.php');
+require_once(CORE.'module.php');
 //require_once(CORE.'error.php');
 require_once(CORE.'dispatcher.php');
 require_once(CORE.'file.php');

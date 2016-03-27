@@ -1,5 +1,5 @@
 <?php
-class controller {
+class module {
 	public $helpers = [];
 
 	public function _authorization() { return true; }

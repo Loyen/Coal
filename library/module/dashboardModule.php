@@ -1,5 +1,5 @@
 <?php
-class dashboardController extends controller {
+class dashboardModule extends module {
 	public function _before() {
 		theme::load('nitrogen');
 	}
