@@ -1,6 +1,7 @@
 <?php
-function arg($pos = null) {
-	$args = explode('/', trim(url(), '/'));
+function arg($pos = null, $url = null) {
+	if ($url === null) $url = url();
+	$args = explode('/', trim($url, '/'));
 
 	if ($pos === null)
 		return $args;

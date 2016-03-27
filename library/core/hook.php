@@ -34,6 +34,9 @@ class hook {
 		if ($this->hooks === null)
 			$this->fetch();
 
+		if (empty($this->hooks))
+			return null;
+
 		if (is_null($url))
 			$url = $this->url();
 
@@ -51,7 +54,8 @@ class hook {
 
 			$hook_url_pieces = explode('/', $hook->url);
 
-			if (count($hook_url_pieces) > count($url_pieces)) continue;
+			if (count($hook_url_pieces) > count($url_pieces))
+				continue;
 
 			$valid_level = 0;
 			for ($i=0;$i<count($url_pieces);$i++) {
@@ -63,32 +67,33 @@ class hook {
 				$valid_level++;
 			}
 
-			if ($valid_level === 0 || $valid_level < $hook_valid_level) continue;
+			if ($valid_level === 0 || $valid_level < $hook_valid_level)
+				continue;
 
 			$hook_valid = $hook;
 			$hook_valid_level = $valid_level;
 		}
 
-		if ($hook_valid) {
-			$hook = $hook_valid;
-			$hook->url = $url;
-			if (isset($hook->args) && !empty($hook->args)) {
-				// Convert object to string
-				$hook->args = (array) $hook->args;
+		if (!$hook_valid)
+			return null;
 
-				foreach ($hook->args as &$arg) {
-					if (is_int($arg))
-						$arg = arg($arg);
-				}
-			} else {
-				$hook->args = [];
+		$hook = $hook_valid;
+		$hook->url = $url;
+		if (isset($hook->args) && !empty($hook->args)) {
+			// Convert object to string
+			$hook->args = (array) $hook->args;
+
+			foreach ($hook->args as &$arg) {
+				if (is_int($arg))
+					$arg = arg($arg, $url);
 			}
-
-			if (!isset($hook->action)) $hook->action = null;
-
-			return $hook;
+		} else {
+			$hook->args = [];
 		}
 
-		return null;
+		if (!isset($hook->action))
+			$hook->action = $this->setting('action', 'index');
+
+		return $hook;
 	}
 }

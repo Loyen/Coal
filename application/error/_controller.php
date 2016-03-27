@@ -3,7 +3,7 @@ class errorController extends controller {
 	public $helpers = ['http'];
 	public function index($code = 404) {
 		if ($this->httpHelper->setStatusCode($code) !== false) {
-			$codes = $this->httpHelper->status_codes;
+			$codes = $this->httpHelper->getStatusCodes();
 			$title = $codes[$code].' (Code: '.$code.')';
 			$description = '';
 

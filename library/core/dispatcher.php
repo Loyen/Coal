@@ -1,67 +1,79 @@
 <?php
 class dispatcher {
 	private $hook = null;
+
 	public function __construct() {
 		$this->hook = new hook();
 	}
-	public function dispatch($code = 200) {
-		if ($code === 200) {
-			$route = $this->hook->route();
 
-			if ($route) return $this->execute($route->controller, $route->action, $route->args);
+	public function dispatch() {
+		$output = '';
+		$route = $this->hook->route();
+		if (!$route)
+			return $this->dispatch_error(404);
 
-			$code = 404;
-		}
+		$appController = $this->initController($route->controller, $route->action);
 
-		return $this->execute($this->hook->setting('error', 'error'), null, [$code]);
+		if (!$appController)
+			return $this->dispatch_error(404);
+
+		if (!$appController->_authorization())
+			return $this->dispatch_error(403);
+
+		return $this->executeController($appController, $route->action, $route->args);
 	}
 
-	public function execute($controller, $action = null, $args = []) {
-		if ($controller) {
-			$controller_path = APPLICATION.$controller.DS.'_controller.php';
-			$controller_name = $controller.'Controller';
-			if (file_exists($controller_path))
-				require_once($controller_path);
+	public function dispatch_error($code = 404) {
+		try {
+			if ($code == 403)
+				$url = setting::get('page_access_denied', null);
+			else
+				$url = setting::get('page_not_found', null);
 
-			if (!class_exists($controller_name))
-				return 404;
+			if (!$url)
+				throw new Exception(404);
 
-			$appController = new $controller_name();
+			$route = $this->hook->route($url);
+			if (!$route)
+				throw new Exception(404);
 
-			if ($action === null)
-				$action = $this->hook->setting('action', 'index');
+			$appController = $this->initController($route->controller, $route->action);
 
-			if (method_exists($appController, '_authorization')) {
-				if (!$appController->_authorization()) {
-					return 403;
-				}
-			}
+			if (!$appController)
+				throw new Exception(404);
 
-			if (property_exists($appController, 'helpers')) {
-				$helpers = $appController->helpers;
-				foreach ($helpers as $helper) {
-					$helper_name = $helper.'Helper';
-					$helper_path = HELPER.$helper_name.'.php';
-					if (file_exists($helper_path))
-						require_once($helper_path);
-
-					$appController->$helper_name = new $helper_name();
-				}
-			}
-
-			if (method_exists($appController, $action)) {
-				if (method_exists($appController, '_before'))
-					$appController->_before();
-
-				$output = call_user_func_array([$appController, $action], $args);
-
-				if (method_exists($appController, '_after'))
-					$appController->_after();
-
-				return $output;
-			}
+			if (!$appController->_authorization())
+				throw new Exception(403);
+		} catch (Exception $e) {
+			$http = new http();
+			$http->setStatusCode($code);
+			exit;
 		}
 
-		return 404;
+		return $this->executeController($appController, $route->action, $route->args);
+	}
+
+	public function initController($controller, $action) {
+		$controller_path = APPLICATION.$controller.DS.'_controller.php';
+		$controller_name = $controller.'Controller';
+		if (file_exists($controller_path))
+			require_once($controller_path);
+
+		if (!class_exists($controller_name))
+			return null;
+
+		$appController = new $controller_name();
+
+		if (!method_exists($appController, $action))
+			return null;
+
+		return $appController;
+	}
+
+	public function executeController($controller, $action, $args = []) {
+		$controller->_before();
+		$output = call_user_func_array([$controller, $action], $args);
+		$controller->_after();
+		return $output;
 	}
 }
