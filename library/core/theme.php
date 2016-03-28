@@ -6,6 +6,9 @@ class theme {
 
 	public function __construct() {
 		$this->load(setting::get('theme', 'default'));
+		$this->variables['favicon'] = str_replace(['/', '\\'], DS, setting::get('favicon', 'favicon.ico'));
+		$this->variables['site_title'] = setting::get('site_title', null);
+		$this->variables['site_description'] = setting::get('site_description', null);
 		$this->variables['theme'] = &$this;
 	}
 

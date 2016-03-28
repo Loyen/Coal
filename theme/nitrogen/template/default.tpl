@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="document">
 <head>
-	<title>Coal</title>
+	<title><?=$site_title;?></title>
+
+	<link href="<?=$favicon;?>" rel="icon" type="image/x-icon" />
+
+	<meta name="description" content="<?=$site_description;?>">
 
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,14 +21,14 @@
 </head>
 <body>
 <div class="siteNavigation">
-	<?php echo $theme->render('navigation-sidebar'); ?>
+	<?=$theme->render('navigation-sidebar');?>
 </div> <!-- .siteNavigation -->
 <div class="siteHeader">
-	<?php echo $theme->render('navigation-header'); ?>
+	<?=$theme->render('navigation-header');?>
 </div> <!-- .siteHeader -->
 <div class="siteMain">
 	<div class="siteContent">
-		<?php echo $content; ?>
+		<?=$content;?>
 	</div> <!-- .siteContent -->
 </div> <!-- .siteMain -->
 </body>
