@@ -23,6 +23,9 @@
 	},
 	"template-default": {
 		"file": "default",
-		"path": "template"
+		"path": "template",
+		"args": {
+			"content": null
+		}
 	}
 }

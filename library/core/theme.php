@@ -6,6 +6,7 @@ class theme {
 
 	public function __construct() {
 		$this->load(setting::get('theme', 'default'));
+		$this->variables['theme'] = &$this;
 	}
 
 	public function addStyle($styles = []) {
@@ -58,8 +59,11 @@ class theme {
 	public function render($hookname, $vars = []) {
 		$output = '';
 		if ($hook = $this->_hook($hookname, $vars)) {
-			$file = THEME.$this->theme.DS.(isset($hook->path) ? $hook->path.DS : '').$hook->file.'.tpl';
-			$vars = $hook->args;
+			$file = THEME.$this->theme.DS.(isset($hook->path) ? str_replace(['/', '\\'], DS, $hook->path).DS : '').$hook->file.'.tpl';
+			$vars = $this->variables;
+			foreach ($hook->args as $key => $val) {
+				$vars[$key] = $val;
+			}
 			$output = $this->_getContent($file, $vars);
 
 			if (isset($hook->template)) {
@@ -94,28 +98,11 @@ class theme {
 	}
 
 	private function _getContent($_file, $_vars) {
-		$_output = '';
-		if (file_exists($_file)) {
-			ob_start();
-			extract($_vars);
-			include($_file);
-			$_output = ob_get_contents();
-			ob_end_clean();
-		}
-
-		return $_output;
+		return get_file_from_output_buffer($_file, $_vars);
 	}
 
 	private function _renderTemplate($templatename, $content) {
-		$output = '';
-		if ($hook = $this->_hook($templatename, [])) {
-			$file = THEME.$this->theme.DS.(isset($hook->path) ? $hook->path.DS : '').$hook->file.'.tpl';
-			$vars = $this->variables;
-			$vars['content'] = $content;
-			$output = $this->_getContent($file, $vars);
-		}
-
-		return $output;
+		return $this->render($templatename, ['content' => $content]);
 	}
 
 	private function _root() {

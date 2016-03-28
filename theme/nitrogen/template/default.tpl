@@ -17,10 +17,10 @@
 </head>
 <body>
 <div class="siteNavigation">
-	<?php echo theme::render('navigation-sidebar'); ?>
+	<?php echo $theme->render('navigation-sidebar'); ?>
 </div> <!-- .siteNavigation -->
 <div class="siteHeader">
-	<?php echo theme::render('navigation-header'); ?>
+	<?php echo $theme->render('navigation-header'); ?>
 </div> <!-- .siteHeader -->
 <div class="siteMain">
 	<div class="siteContent">

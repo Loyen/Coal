@@ -32,6 +32,19 @@ function json_parse_file($file) {
 	return false;
 }
 
+function get_file_from_output_buffer($_file, $_vars = []) {
+	$_output = '';
+	if (file_exists($_file)) {
+		ob_start();
+		extract($_vars);
+		include($_file);
+		$_output = ob_get_contents();
+		ob_end_clean();
+	}
+
+	return $_output;
+}
+
 function url($url = null, $args = []) {
 	if ($url === null) {
 		$hook_param = setting::get('parameter', 'q');
