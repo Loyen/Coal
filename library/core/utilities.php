@@ -17,8 +17,6 @@ function debug() {
 	echo '<pre>';
 	foreach ($args as $arg) {
 		echo json_encode($arg, JSON_PRETTY_PRINT);
-		//echo print_r($arg, true);
-		//echo var_export($arg);
 	}
 	echo '<pre>';
 }
@@ -35,14 +33,15 @@ function json_parse_file($file) {
 }
 
 function url($url = null, $args = []) {
-	static $hook;
-	if (!$hook) $hook = new hook();
-
 	if ($url === null) {
-		$url = $hook->url();
+		$hook_param = setting::get('parameter', 'q');
+		if (isset($_GET[$hook_param]) && !empty($_GET[$hook_param]) && $_GET[$hook_param] !== '/')
+			$url = $_GET[$hook_param];
+		else
+			$url = setting::get('page_home', 'home');
 	}
 
-	if ($url === $hook->setting('default')) {
+	if ($url == setting::get('page_home', 'home')) {
 		$url = '/';
 	} else {
 		$url = '/'.$url;

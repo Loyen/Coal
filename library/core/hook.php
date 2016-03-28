@@ -11,25 +11,6 @@ class hook {
 		return false;
 	}
 
-	public function setting($var) {
-		$setting = setting::get('hook', (object)[]);
-
-		if (isset($setting->$var))
-			return $setting->$var;
-
-		return null;
-	}
-
-	public function url() {
-		$hook_param = $this->setting('parameter', 'q');
-		if (isset($_GET[$hook_param]) && !empty($_GET[$hook_param]) && $_GET[$hook_param] !== '/')
-			$url = $_GET[$hook_param];
-		else
-			$url = $this->setting('default');
-
-		return $url;
-	}
-
 	public function route($url = null) {
 		if ($this->hooks === null)
 			$this->fetch();
@@ -38,9 +19,12 @@ class hook {
 			return null;
 
 		if (is_null($url))
-			$url = $this->url();
+			$url = url();
 
 		$url = trim($url, '/');
+
+		if (empty($url))
+			$url = setting::get('page_home', 'home');
 
 		$url_pieces = explode('/', $url);
 		$hook_valid = null;
@@ -92,7 +76,7 @@ class hook {
 		}
 
 		if (!isset($hook->action))
-			$hook->action = $this->setting('action', 'index');
+			$hook->action = setting::get('default_action', 'index');
 
 		return $hook;
 	}

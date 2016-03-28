@@ -3,12 +3,11 @@
 
 	"theme": "nitrogen",
 
-	"hook": {
-		"default": "home",
-		"action": "index",
-		"parameter": "q"
-	},
+	"url_path_var": "q",
 
+	"default_action": "index",
+
+	"page_home": "home",
 	"page_not_found": "error/404",
 	"page_access_denied": "error/403",
 

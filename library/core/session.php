@@ -81,7 +81,7 @@ class session {
 	 * Check if session is active
 	 **/
 	public function isActive() {
-		return session_id() !== '';
+		return session_id() != '';
 	}
 	/**
 	 * End session
