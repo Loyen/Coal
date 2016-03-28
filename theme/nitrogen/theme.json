@@ -1,5 +1,13 @@
 {
 	"name": "Nitrogen",
 	"version": "0.1",
-	"url": ""
+	"url": "",
+
+	"styles": [
+		"style/all.css"
+	],
+	"scripts": [
+		"script/jquery-1.11.3.min.js",
+		"script/core.js"
+	]
 }

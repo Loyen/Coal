@@ -18,5 +18,7 @@ class module {
 				$this->$helper_name = new $helper_name();
 			}
 		}
+
+		$this->theme = new theme();
 	}
 }

@@ -1,10 +1,10 @@
 <?php
 class dashboardModule extends module {
 	public function _before() {
-		theme::load('nitrogen');
+		$this->theme->addStyle('style/override/admin.css');
 	}
 
 	public function index() {
-		return theme::render('default');
+		return $this->theme->render('default');
 	}
 }

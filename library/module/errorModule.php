@@ -17,6 +17,6 @@ class errorModule extends module {
 			$description = 'An error occured trying to find the requested page.';
 		}
 
-		return theme::render('error', ['title' => $title, 'description' => $description]);
+		return $this->theme->render('error', ['title' => $title, 'description' => $description]);
 	}
 }

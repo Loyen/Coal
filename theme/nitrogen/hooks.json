@@ -2,9 +2,6 @@
 	"default": {
 		"file": "default",
 		"path": "page",
-		"args": {
-			"foo": "bar"
-		},
 		"template": "template-default"
 	},
 	"error": {
@@ -26,9 +23,6 @@
 	},
 	"template-default": {
 		"file": "default",
-		"path": "template",
-		"args": {
-			"content": null
-		}
+		"path": "template"
 	}
 }
