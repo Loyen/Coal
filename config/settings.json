@@ -3,12 +3,16 @@
 
 	"theme": "nitrogen",
 
-	"hook": {
-		"default": "home",
-		"error": "error",
-		"action": "index",
-		"parameter": "q"
-	},
+	"site_title": "Coal framework",
+	"site_description": "A lightweight PHP framework",
+
+	"page_home": "home",
+	"page_not_found": "error/404",
+	"page_access_denied": "error/403",
+
+	"url_path_var": "q",
+
+	"default_action": "index",
 
 	"admin": {
 		"theme": "dashboard",

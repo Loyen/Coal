@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" class="document">
 <head>
-	<title>Coal</title>
+	<title><?=$site_title;?></title>
+
+	<link href="<?=$favicon;?>" rel="icon" type="image/x-icon" />
+
+	<meta name="description" content="<?=$site_description;?>">
 
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<link rel="stylesheet" type="text/css" href="/theme/nitrogen/style/all.css" />
-	<script src="/theme/nitrogen/script/jquery-1.11.3.min.js"></script>
-	<script src="/theme/nitrogen/script/core.js"></script>
+<?php foreach ($styles as $style) { ?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $style; ?>" />
+<?php } ?>
+
+<?php foreach ($scripts as $script) { ?>
+	<script src="<?php echo $script; ?>"></script>
+<?php } ?>
 
 </head>
 <body>
 <div class="siteNavigation">
-	<?php echo theme::render('navigation-sidebar'); ?>
+	<?=$theme->render('navigation-sidebar');?>
 </div> <!-- .siteNavigation -->
 <div class="siteHeader">
-	<?php echo theme::render('navigation-header'); ?>
+	<?=$theme->render('navigation-header');?>
 </div> <!-- .siteHeader -->
 <div class="siteMain">
 	<div class="siteContent">
-		<?php echo $content; ?>
+		<?=$content;?>
 	</div> <!-- .siteContent -->
 </div> <!-- .siteMain -->
 </body>

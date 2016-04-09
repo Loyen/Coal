@@ -1,14 +1,14 @@
 {
 	"home": {
-		"controller": "default",
+		"module": "home",
 		"action": "index"
 	},
 	"error/*": {
-		"controller": "error",
+		"module": "error",
 		"args": [1]
 	},
 	"admin": {
-		"controller": "dashboard",
+		"module": "dashboard",
 		"action": "index"
 	}
 }

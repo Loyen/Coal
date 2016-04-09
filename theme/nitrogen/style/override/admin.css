@@ -1,0 +1,20 @@
+/* start navigation--header */
+
+.navigation--header {
+	background-color: #2196F3;
+}
+
+.navigation--header .navigation-link {
+	color: #E3F2FD;
+}
+
+.navigation--header .navigation-link.is-selected,
+.navigation--header .navigation-link:hover {
+	background-color: #1E88E5;
+}
+
+.navigation--header .navigation-link:active {
+	background-color: #1976D2;
+}
+
+/* end navigation--header */

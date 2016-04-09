@@ -1,25 +1,27 @@
 <?php
+namespace Coal\Core;
+
 class cache {
-	public static function read($key, $default = null) {
+	public function read($key, $default = null) {
 		$cache_key = md5($key);
 		if (class_exists('Memcache')) {
 			if ($cache = Memcache::get($cache_key)) {
 				return unserialize($cache);
 			}
 		} else {
-			$file = CACHE.$cache_key;
-			if ($cache = file::read($file)) {
+			$file = new file(CACHE.$cache_key);
+			if ($cache = $file->read()) {
 				if (time() < $cache->expiration)
 					return $cache->content;
 				else
-					file::delete($file);
+					$file->delete();
 			}
 		}
 
 		return $default;
 	}
 
-	public static function write($key, $value, $expiration = 0) {
+	public function write($key, $value, $expiration = 0) {
 		$cache_key = md5($key);
 
 		if (class_exists('Memcache')) {
@@ -32,7 +34,8 @@ class cache {
 				'expiration' => time()+$expiration
 			];
 			$cache = serialize($cache);
-			if (file::write(CACHE.$cache_key, $cache))
+			$file = new file(CACHE.$cache_key);
+			if ($file->write($cache))
 				return true;
 		}
 

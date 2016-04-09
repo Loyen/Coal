@@ -1,7 +1,14 @@
 <?php
+namespace Coal\Core;
+
 class session {
-	public static $active = false;
-	public static $vars = [];
+	public function __construct() {
+		$this->start();
+	}
+
+	public function __destruct() {
+		$this->end();
+	}
 
 	/**
 	 * Get session data by key
@@ -14,9 +21,9 @@ class session {
 	 *  If strict check return default if value is empty
 	 * @return mixed variable found on key or $default value
 	 **/
-	public static function get($key, $default = null, $strict = false) {
-		if (self::has($key, $strict))
-			return self::$vars[$key];
+	public function get($key, $default = null, $strict = false) {
+		if ($this->has($key, $strict))
+			return $_SESSION[$key];
 
 		return $default;
 	}
@@ -29,8 +36,8 @@ class session {
 	 * @param mixed $value
 	 *  Value to set
 	 **/
-	public static function set($key, $value) {
-		self::$vars[$key] = $value;
+	public function set($key, $value) {
+		$_SESSION[$key] = $value;
 	}
 
 	/**
@@ -42,8 +49,8 @@ class session {
 	 *  If strict check return default if value is empty
 	 * @return bool if exists (and if strict, is not empty) true else false
 	 **/
-	public static function has($key, $strict = false) {
-		return (isset(self::$vars[$key]) ? ($strict ? !empty(self::$vars[$key]) : true) : false);
+	public function has($key, $strict = false) {
+		return (isset($_SESSION[$key]) ? ($strict ? !empty($_SESSION[$key]) : true) : false);
 	}
 
 	/**
@@ -53,10 +60,10 @@ class session {
 	 *  Key to delete
 	 * @return bool true if successful else false
 	 **/
-	public static function delete($key) {
-		if (isset(self::$vars[$key]))
+	public function delete($key) {
+		if (isset($_SESSION[$key]))
 		{
-			unset(self::$vars[$key]);
+			unset($_SESSION[$key]);
 			return true;
 		}
 
@@ -64,49 +71,38 @@ class session {
 	}
 
 	/**
-	 * Copy session data to self::$vars
-	 **/
-	public static function fetch() {
-		self::$vars = $_SESSION;
-	}
-
-	/**
-	 * Copy self::$vars to session data
-	 **/
-	public static function write() {
-		$_SESSION = self::$vars;
-	}
-
-	/**
 	 * Start session
 	 **/
-	public static function start() {
-		if (self::$active) return true;
+	public function start() {
+		if ($this->isActive()) return true;
 		if (!session_start()) return false;
-
-		self::$active = true;
-		self::fetch();
-
 		return true;
 	}
 
 	/**
 	 * Check if session is active
 	 **/
-	public static function active() {
-		return self::$active;
+	public function isActive() {
+		return session_id() != '';
+	}
+	/**
+	 * End session
+	 **/
+	public function end() {
+		if (!$this->isActive()) return true;
+
+		session_write_close();
+		return true;
 	}
 
 	/**
-	 * Delete session data
+	 * Destroy session
 	 **/
-	public static function end() {
-		if (!self::$active) return false;
+	public function destroy() {
+		if (!$this->isActive()) return true;
 
 		session_destroy();
-		self::$vars = [];
-		self::$active = false;
-
 		return true;
 	}
+
 }

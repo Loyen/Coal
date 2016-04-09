@@ -1,8 +1,9 @@
 <?php
-class errorController extends controller {
+class errorModule extends \Coal\Core\module {
+	public $helpers = ['http'];
 	public function index($code = 404) {
-		if (http::status_code($code) !== false) {
-			$codes = http::$status_codes;
+		if ($this->httpHelper->setStatusCode($code) !== false) {
+			$codes = $this->httpHelper->getStatusCodes();
 			$title = $codes[$code].' (Code: '.$code.')';
 			$description = '';
 
@@ -16,6 +17,6 @@ class errorController extends controller {
 			$description = 'An error occured trying to find the requested page.';
 		}
 
-		return theme::render('error', ['title' => $title, 'description' => $description]);
+		return $this->theme->render('error', ['title' => $title, 'description' => $description]);
 	}
 }
