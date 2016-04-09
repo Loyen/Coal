@@ -23,4 +23,5 @@ require_once(CORE.'renderer.php');
 require_once(CORE.'session.php');
 require_once(CORE.'setting.php');
 require_once(CORE.'theme.php');
+require_once(CORE.'theme.parser.php');
 require_once(CORE.'utilities.php');

@@ -9,19 +9,20 @@ class theme {
 
 	public function __construct() {
 		$this->renderer = new renderer();
+		$this->parser = new themeParser($this);
 
 		$this->load(setting::get('theme', 'default'));
 		$this->variables['favicon'] = str_replace(['/', '\\'], DS, setting::get('favicon', 'favicon.ico'));
 		$this->variables['site_title'] = setting::get('site_title', null);
 		$this->variables['site_description'] = setting::get('site_description', null);
-		$this->variables['theme'] = &$this;
+		$this->variables['theme'] = &$this->parser;
 	}
 
 	public function addStyle($styles = []) {
 		if (!is_array($styles)) $styles = func_get_args();
 
 		foreach ($styles as $style) {
-			$style = $this->_theme_path().str_replace(['/', '\\'], DS, $style);
+			$style = $this->theme_path().str_replace(['/', '\\'], DS, $style);
 			$this->variables['styles'][] = $style;
 		}
 	}
@@ -30,7 +31,7 @@ class theme {
 		if (!is_array($scripts)) $scripts = func_get_args();
 
 		foreach ($scripts as $script) {
-			$script = $this->_theme_path().str_replace(['/', '\\'], DS, $script);
+			$script = $this->theme_path().str_replace(['/', '\\'], DS, $script);
 			$this->variables['scripts'][] = $script;
 		}
 	}
@@ -66,13 +67,13 @@ class theme {
 
 	public function render($hookname, $vars = []) {
 		$output = '';
-		if ($hook = $this->_hook($hookname, $vars)) {
+		if ($hook = $this->hook($hookname, $vars)) {
 			$file = $this->_hook_path($hook->file, (isset($hook->path) ? $hook->path : null));
 			$vars = $this->variables;
 			foreach ($hook->args as $key => $val) {
 				$vars[$key] = $val;
 			}
-			$output = $this->renderer->print($file, $vars);
+			$output = $this->renderer->parse_file($file, $vars);
 
 			if (isset($hook->template)) {
 				$this->variables['content'] = $output;
@@ -85,7 +86,7 @@ class theme {
 		return $output;
 	}
 
-	private function _hook($hookname = null, $vars = []) {
+	private function hook($hookname = null, $vars = []) {
 		if ($this->hooks === null)
 			$this->load();
 
@@ -108,7 +109,7 @@ class theme {
 		return false;
 	}
 
-	private function _theme_path() {
+	private function theme_path() {
 		return '/'.substr(THEME, strlen(ROOT)).$this->theme.DS;
 	}
 

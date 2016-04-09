@@ -2,7 +2,7 @@
 namespace Coal\Core;
 
 class renderer {
-	public function print($_file, $_vars = []) {
+	public function parse_file($_file, $_vars = []) {
 		$_output = '';
 		if (file_exists($_file)) {
 			ob_start();
