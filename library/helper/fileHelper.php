@@ -1,9 +1,9 @@
 <?php
-class fileHelper extends helper {
+class fileHelper extends \Coal\Core\helper {
 	private $fileHandler = null;
 
 	public function __construct($file = null) {
-		$this->fileHandler = new file($file);
+		$this->fileHandler = new \Coal\Core\file($file);
 	}
 
 	public function exists() {

@@ -1,5 +1,5 @@
 <?php
-class homeModule extends module {
+class homeModule extends \Coal\Core\module {
 	public function index() {
 		return $this->theme->render('default');
 	}

@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class http {
 	public function getProtocol() {
 		return $_SERVER['SERVER_PROTOCOL'];

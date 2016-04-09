@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class dispatcher {
 	private $hook = null;
 
@@ -20,7 +22,7 @@ class dispatcher {
 		if (!$module->_authorization())
 			return $this->dispatch_error(403);
 
-		return $this->executeModule($module, $route->action, $route->args);
+		return $module->_execute($route->action, $route->args);
 	}
 
 	public function dispatch_error($code = 404) {
@@ -50,7 +52,7 @@ class dispatcher {
 			exit;
 		}
 
-		return $this->executeModule($module, $route->action, $route->args);
+		return $module->_execute($route->action, $route->args);
 	}
 
 	public function initModule($module, $action) {
@@ -68,12 +70,5 @@ class dispatcher {
 			return null;
 
 		return $module;
-	}
-
-	public function executeModule($module, $action, $args = []) {
-		$module->_before();
-		$output = call_user_func_array([$module, $action], $args);
-		$module->_after();
-		return $output;
 	}
 }

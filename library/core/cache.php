@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class cache {
 	public function read($key, $default = null) {
 		$cache_key = md5($key);

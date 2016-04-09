@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class file {
 	public $file = null;
 

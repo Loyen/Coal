@@ -1,10 +1,10 @@
 <?php
-class userHelper extends helper {
+class userHelper extends \Coal\Core\helper {
 	private $user = [];
 	private $sessionHandler = null;
 
 	public function __construct() {
-		$this->sessionHandler = new session();
+		$this->sessionHandler = new \Coal\Core\session();
 	}
 
 	public function set($key, $value) {

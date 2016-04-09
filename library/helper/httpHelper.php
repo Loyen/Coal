@@ -1,9 +1,9 @@
 <?php
-class httpHelper extends helper {
+class httpHelper extends \Coal\Core\helper {
 	private $httpHandler = null;
 
 	public function __construct() {
-		$this->httpHandler = new http();
+		$this->httpHandler = new \Coal\Core\http();
 	}
 
 	public function getProtocol() {

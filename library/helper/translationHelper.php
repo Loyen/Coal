@@ -1,5 +1,5 @@
 <?php
-class translationHelper extends helper {
+class translationHelper extends \Coal\Core\helper {
 	private $translations = [];
 
 	public function fetch() {

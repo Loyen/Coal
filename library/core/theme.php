@@ -1,10 +1,15 @@
 <?php
+namespace Coal\Core;
+
 class theme {
 	private $theme = null;
 	private $hooks = null;
 	private $variables = [];
+	private $renderer = null;
 
 	public function __construct() {
+		$this->renderer = new renderer();
+
 		$this->load(setting::get('theme', 'default'));
 		$this->variables['favicon'] = str_replace(['/', '\\'], DS, setting::get('favicon', 'favicon.ico'));
 		$this->variables['site_title'] = setting::get('site_title', null);
@@ -16,7 +21,7 @@ class theme {
 		if (!is_array($styles)) $styles = func_get_args();
 
 		foreach ($styles as $style) {
-			$style = $this->_root().str_replace(['/', '\\'], DS, $style);
+			$style = $this->_theme_path().str_replace(['/', '\\'], DS, $style);
 			$this->variables['styles'][] = $style;
 		}
 	}
@@ -25,7 +30,7 @@ class theme {
 		if (!is_array($scripts)) $scripts = func_get_args();
 
 		foreach ($scripts as $script) {
-			$script = $this->_root().str_replace(['/', '\\'], DS, $script);
+			$script = $this->_theme_path().str_replace(['/', '\\'], DS, $script);
 			$this->variables['scripts'][] = $script;
 		}
 	}
@@ -62,16 +67,19 @@ class theme {
 	public function render($hookname, $vars = []) {
 		$output = '';
 		if ($hook = $this->_hook($hookname, $vars)) {
-			$file = THEME.$this->theme.DS.(isset($hook->path) ? str_replace(['/', '\\'], DS, $hook->path).DS : '').$hook->file.'.tpl';
+			$file = $this->_hook_path($hook->file, (isset($hook->path) ? $hook->path : null));
 			$vars = $this->variables;
 			foreach ($hook->args as $key => $val) {
 				$vars[$key] = $val;
 			}
-			$output = $this->_getContent($file, $vars);
+			$output = $this->renderer->print($file, $vars);
 
 			if (isset($hook->template)) {
-				$output = $this->_renderTemplate($hook->template, $output);
+				$this->variables['content'] = $output;
+				$output = $this->render($hook->template, $this->variables);
 			}
+
+			$this->variables = [];
 		}
 
 		return $output;
@@ -100,15 +108,11 @@ class theme {
 		return false;
 	}
 
-	private function _getContent($_file, $_vars) {
-		return get_file_from_output_buffer($_file, $_vars);
-	}
-
-	private function _renderTemplate($templatename, $content) {
-		return $this->render($templatename, ['content' => $content]);
-	}
-
-	private function _root() {
+	private function _theme_path() {
 		return '/'.substr(THEME, strlen(ROOT)).$this->theme.DS;
+	}
+
+	private function _hook_path($filename, $path = '') {
+		return THEME.$this->theme.DS.(!empty($path) ? str_replace(['/', '\\'], DS, $path).DS : '').$filename.'.tpl';
 	}
 }

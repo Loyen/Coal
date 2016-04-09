@@ -1,9 +1,9 @@
 <?php
-class cacheHelper extends helper {
+class cacheHelper extends \Coal\Core\helper {
 	private $cacheHandler = null;
 
 	public function __construct() {
-		$this->cacheHandler = new cache();
+		$this->cacheHandler = new \Coal\Core\cache();
 	}
 
 	public function read($key, $default = null) {

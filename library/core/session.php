@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class session {
 	public function __construct() {
 		$this->start();

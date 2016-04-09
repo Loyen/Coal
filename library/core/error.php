@@ -1,4 +1,6 @@
 <?php
-class error {
+namespace Coal\Core;
+
+class error extends \Exception {
 
 }

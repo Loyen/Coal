@@ -1,5 +1,5 @@
 <?php
-class sessionHelper extends helper {
+class sessionHelper extends \Coal\Core\helper {
 	private $sessionHandler = null;
 
 	public function __construct() {

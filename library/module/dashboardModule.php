@@ -1,5 +1,5 @@
 <?php
-class dashboardModule extends module {
+class dashboardModule extends \Coal\Core\module {
 	public function _before() {
 		$this->theme->addStyle('style/override/admin.css');
 	}

@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class module {
 	public $helpers = [];
 
@@ -20,5 +22,12 @@ class module {
 		}
 
 		$this->theme = new theme();
+	}
+
+	public function _execute($action, $args = []) {
+		$this->_before();
+		$output = call_user_func_array([$this, $action], $args);
+		$this->_after();
+		return $output;
 	}
 }

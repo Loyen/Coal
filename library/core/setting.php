@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class setting {
 	private static $vars = null;
 

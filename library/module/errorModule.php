@@ -1,5 +1,5 @@
 <?php
-class errorModule extends module {
+class errorModule extends \Coal\Core\module {
 	public $helpers = ['http'];
 	public function index($code = 404) {
 		if ($this->httpHelper->setStatusCode($code) !== false) {

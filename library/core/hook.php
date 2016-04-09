@@ -1,4 +1,6 @@
 <?php
+namespace Coal\Core;
+
 class hook {
 	private $hooks = null;
 
