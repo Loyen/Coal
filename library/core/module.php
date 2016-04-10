@@ -14,8 +14,14 @@ class module {
 			foreach ($this->helpers as $helper) {
 				$helper_name = $helper.'Helper';
 				$helper_path = HELPER.$helper_name.'.php';
-				if (file_exists($helper_path))
-					require_once($helper_path);
+
+				if (!file_exists($helper_path))
+					continue;
+
+				require_once($helper_path);
+
+				if (!class_exists($helper_name))
+					continue;
 
 				$this->$helper_name = new $helper_name();
 			}
