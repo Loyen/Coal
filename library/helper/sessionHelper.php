@@ -3,7 +3,7 @@ class sessionHelper extends \Coal\Core\helper {
 	private $sessionHandler = null;
 
 	public function __construct() {
-		$this->sessionHandler = new session();
+		$this->sessionHandler = new \Coal\Core\session();
 	}
 
 	public function get($key, $default = null, $strict = false) {
