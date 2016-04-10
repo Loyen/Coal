@@ -3,6 +3,8 @@
 
 	"theme": "nitrogen",
 
+	"cache_method": "memcache",
+
 	"site_title": "Coal framework",
 	"site_description": "A lightweight PHP framework",
 

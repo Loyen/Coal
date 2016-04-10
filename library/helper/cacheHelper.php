@@ -6,11 +6,23 @@ class cacheHelper extends \Coal\Core\helper {
 		$this->cacheHandler = new \Coal\Core\cache();
 	}
 
+	public function clear() {
+		return $this->cacheHandler->clear();
+	}
+
 	public function read($key, $default = null) {
 		return $this->cacheHandler->read($key, $default);
 	}
 
-	public function write($key, $value, $expiration = 0) {
-		return $this->cacheHandler->write($key, $value, $expiration);
+	public function exists($key) {
+		return $this->cacheHandler->exists($key);
+	}
+
+	public function delete($key) {
+		return $this->cacheHandler->delete($key);
+	}
+
+	public function write($key, $value, $expire = 0) {
+		return $this->cacheHandler->write($key, $value, $expire);
 	}
 }
