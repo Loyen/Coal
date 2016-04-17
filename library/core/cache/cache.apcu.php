@@ -14,10 +14,6 @@ class cache_apcu {
 		return apc_fetch($key);
 	}
 
-	public function exists($key) {
-		return apc_exists($key) !== false;
-	}
-
 	public function delete($key) {
 		return apc_delete($key);
 	}

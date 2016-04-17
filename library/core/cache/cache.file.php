@@ -11,12 +11,17 @@ class cache_file {
 
 	public function read($key) {
 		$file = new file(CACHE.$key);
-		return $file->read();
-	}
 
-	public function exists($key) {
-		$file = new file(CACHE.$key);
-		return $file->exists();
+		if (!$file->exists())
+			return null;
+
+		$data = $file->read();
+		$object = unserialize($data);
+
+		if (!$object || ($object->expire !== 0 && $object->expire > time()))
+			return null;
+
+		return $object->data;
 	}
 
 	public function delete($key) {
@@ -26,7 +31,12 @@ class cache_file {
 
 	public function write($key, $value, $expire) {
 		$file = new file(CACHE.$key);
-		return $file->write($value);
+		$object = (object) [
+			'data' => $value,
+			'expire' => ($expire > 0 ? time()+$expire : 0)
+		];
+		$data = serialize($object);
+		return $file->write($data);
 	}
 
 }
