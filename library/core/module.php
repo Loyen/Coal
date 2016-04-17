@@ -15,13 +15,11 @@ class module {
 				$helper_name = $helper.'Helper';
 				$helper_path = HELPER.$helper_name.'.php';
 
-				if (!file_exists($helper_path))
-					continue;
-
-				require_once($helper_path);
+				if (file_exists($helper_path))
+					require_once($helper_path);
 
 				if (!class_exists($helper_name))
-					continue;
+					throw new helperErrorException('Helper not found', 404);
 
 				$this->$helper_name = new $helper_name();
 			}
@@ -36,4 +34,8 @@ class module {
 		$this->_after();
 		return $output;
 	}
+}
+
+class moduleErrorException extends errorException {
+
 }

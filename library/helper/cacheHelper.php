@@ -3,7 +3,11 @@ class cacheHelper extends \Coal\Core\helper {
 	private $cacheHandler = null;
 
 	public function __construct() {
-		$this->cacheHandler = new \Coal\Core\cache();
+		try {
+			$this->cacheHandler = new \Coal\Core\cache();
+		} catch (\Coal\Core\cacheErrorException $e) {
+			throw new helperErrorException('CacheHandler not found', 404);
+		}
 	}
 
 	public function clear() {

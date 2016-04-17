@@ -2,23 +2,31 @@
 class fileHelper extends \Coal\Core\helper {
 	private $fileHandler = null;
 
-	public function __construct($file = null) {
+	public function __construct() {
+
+	}
+
+	public function load($file) {
 		$this->fileHandler = new \Coal\Core\file($file);
 	}
 
 	public function exists() {
-		return $this->fileHandler->exists();
+		if ($this->fileHandler)
+			return $this->fileHandler->exists();
 	}
 
 	public function read() {
-		return $this->fileHandler->read();
+		if ($this->fileHandler)
+			return $this->fileHandler->read();
 	}
 
 	public function write($value, $force = true) {
-		return $this->fileHandler->write($value, $force);
+		if ($this->fileHandler)
+			return $this->fileHandler->write($value, $force);
 	}
 
 	public function delete() {
-		return $this->fileHandler->delete();
+		if ($this->fileHandler)
+			return $this->fileHandler->delete();
 	}
 }

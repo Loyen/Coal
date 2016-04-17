@@ -14,10 +14,6 @@ class cache_memcache {
 		return Memcache::get($key);
 	}
 
-	public function exists($key) {
-		return Memcache::get($key) !== false;
-	}
-
 	public function delete($key) {
 		return Memcache::delete($key);
 	}

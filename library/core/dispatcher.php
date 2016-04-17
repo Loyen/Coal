@@ -8,51 +8,34 @@ class dispatcher {
 		$this->hook = new hook();
 	}
 
-	public function dispatch() {
-		$output = '';
-		$route = $this->hook->route();
-		if (!$route)
-			return $this->dispatch_error(404);
-
-		$module = $this->initModule($route->module, $route->action);
-
-		if (!$module)
-			return $this->dispatch_error(404);
-
-		if (!$module->_authorization())
-			return $this->dispatch_error(403);
-
-		return $module->_execute($route->action, $route->args);
-	}
-
-	public function dispatch_error($code = 404) {
+	public function dispatch($url = null, $code = 200) {
 		try {
-			if ($code == 403)
+			try {
+				$route = $this->hook->route($url);
+
+				$module = $this->initModule($route->module, $route->action);
+				return $module->_execute($route->action, $route->args);
+			} catch (hookErrorException $e) {
+				throw new dispatchErrorException($e->getMessage(), $e->getCode());
+			} catch (moduleErrorException $e) {
+				throw new dispatchErrorException($e->getMessage(), $e->getCode());
+			}
+		} catch (dispatchErrorException $e) {
+			if ($code !== 200) {
+				$http = new http();
+				$http->setStatusCode($e->getCode());
+				if (setting::get('mode') == 'debug')
+					print $e->getMessage();
+				exit;
+			}
+
+			if ($e->getCode() === 403)
 				$url = setting::get('page_access_denied', null);
 			else
 				$url = setting::get('page_not_found', null);
 
-			if (!$url)
-				throw new Exception(404);
-
-			$route = $this->hook->route($url);
-			if (!$route)
-				throw new Exception(404);
-
-			$module = $this->initModule($route->module, $route->action);
-
-			if (!$module)
-				throw new Exception(404);
-
-			if (!$module->_authorization())
-				throw new Exception(403);
-		} catch (Exception $e) {
-			$http = new http();
-			$http->setStatusCode($code);
-			exit;
+			return $this->dispatch($url, $e->getCode());
 		}
-
-		return $module->_execute($route->action, $route->args);
 	}
 
 	public function initModule($module, $action) {
@@ -62,13 +45,24 @@ class dispatcher {
 			require_once($module_path);
 
 		if (!class_exists($module_name))
-			return null;
+			throw new moduleErrorException('Module not found', 404);
 
-		$module = new $module_name();
+		try {
+			$module = new $module_name();
+		} catch (helperErrorException $e) {
+			throw new moduleErrorException('Module dependency failed to load', 404);
+		}
 
 		if (!method_exists($module, $action))
-			return null;
+			throw new moduleErrorException('Module action not found', 404);
+
+		if (!$module->_authorization())
+			throw new moduleErrorException('Forbidden', 403);
 
 		return $module;
 	}
+}
+
+class dispatchErrorException extends errorException {
+
 }
