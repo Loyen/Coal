@@ -3,7 +3,6 @@ namespace Coal\Core;
 
 class cache_apcu {
 	public function __construct() {
-		return extension_loaded('apcu');
 	}
 
 	public function clear() {

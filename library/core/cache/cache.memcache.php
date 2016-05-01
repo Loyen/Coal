@@ -3,7 +3,6 @@ namespace Coal\Core;
 
 class cache_memcache {
 	public function __construct() {
-		return extension_loaded('memcache');
 	}
 
 	public function clear() {
