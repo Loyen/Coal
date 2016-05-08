@@ -8,19 +8,14 @@ class cache {
 		$cache_method = setting::get('cache_method', 'file');
 
 		$file = CORE.'cache'.DS.'cache.'.strtolower($cache_method).'.php';
-		if (file_exists($file)) {
+		if (file_exists($file))
 			require_once($file);
-			$cache_method_name = 'cache_'.$cache_method;
-			if (class_exists('\\Coal\\Core\\'.$cache_method_name)) {
-				$this->cacheHandler = new $cache_method();
 
-				if ($this->cacheHandler !== false)
-					return true;
+		$cache_method_name = '\\Coal\\Core\\cache_'.$cache_method;
+		if (!class_exists($cache_method_name))
+			throw new cacheErrorException('No cacheHandler found', 404);
 
-			}
-		}
-
-		return false;
+		$this->cacheHandler = new $cache_method_name();
 	}
 
 	public function clear() {
@@ -28,14 +23,12 @@ class cache {
 	}
 
 	public function read($key, $default = null) {
-		if (!$this->exists($key))
+		$data = $this->cacheHandler->read($key);
+
+		if (!$data)
 			return $default;
 
-		return $this->cacheHandler->read($key);
-	}
-
-	public function exists($key) {
-		return $this->cacheHandler->exists($key);
+		return $data;
 	}
 
 	public function delete($key) {
@@ -45,4 +38,8 @@ class cache {
 	public function write($key, $value, $expiration = 0) {
 		return $this->cacheHandler->write($key, $value, $expiration);
 	}
+}
+
+class cacheErrorException extends errorException {
+
 }

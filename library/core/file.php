@@ -13,7 +13,7 @@ class file {
 	}
 
 	public function read() {
-		if ($this->exists($this->file)) {
+		if (file_exists($this->file)) {
 			if ($content = file_get_contents($this->file)) {
 				return $content;
 			}

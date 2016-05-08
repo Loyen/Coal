@@ -5,20 +5,30 @@ class hook {
 	private $hooks = null;
 
 	private function fetch() {
-		if ($json_decoded = json_parse_file(CONFIG.'hooks.json')) {
-			$this->hooks = (array) $json_decoded;
-			return true;
-		}
+		try {
+			$cache = new cache();
 
-		return false;
+			$cache_key = 'hooks';
+			$this->hooks = $cache->read($cache_key, false);
+
+			if ($this->hooks === false) {
+				if ($json_decoded = json_parse_file(CONFIG.'hooks.json')) {
+					$this->hooks = (array) $json_decoded;
+					$cache->write($cache_key, $this->hooks);
+					return true;
+				}
+			}
+
+			if (empty($this->hooks))
+				throw new hookErrorException('Empty hook', 204);
+		} catch (cacheErrorException $e) {
+			throw new hookErrorException('Failed to load cacheHandler', 204);
+		}
 	}
 
 	public function route($url = null) {
 		if ($this->hooks === null)
 			$this->fetch();
-
-		if (empty($this->hooks))
-			return null;
 
 		if (is_null($url))
 			$url = url();
@@ -61,7 +71,7 @@ class hook {
 		}
 
 		if (!$hook_valid)
-			return null;
+			throw new hookErrorException('Hook not found', 404);
 
 		$hook = $hook_valid;
 		$hook->url = $url;
@@ -82,4 +92,8 @@ class hook {
 
 		return $hook;
 	}
+}
+
+class hookErrorException extends errorException {
+
 }

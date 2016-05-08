@@ -3,7 +3,6 @@ namespace Coal\Core;
 
 class cache_memcache {
 	public function __construct() {
-		return extension_loaded('memcache');
 	}
 
 	public function clear() {
@@ -12,10 +11,6 @@ class cache_memcache {
 
 	public function read($key) {
 		return Memcache::get($key);
-	}
-
-	public function exists($key) {
-		return Memcache::get($key) !== false;
 	}
 
 	public function delete($key) {

@@ -3,7 +3,6 @@ namespace Coal\Core;
 
 class cache_apcu {
 	public function __construct() {
-		return extension_loaded('apcu');
 	}
 
 	public function clear() {
@@ -12,10 +11,6 @@ class cache_apcu {
 
 	public function read($key) {
 		return apc_fetch($key);
-	}
-
-	public function exists($key) {
-		return apc_exists($key) !== false;
 	}
 
 	public function delete($key) {
