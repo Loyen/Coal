@@ -58,7 +58,7 @@ Coal.behaviors.ripple = function(el) {
 			rippleItem.addClass(classes.rippleInactive);
 
 			setTimeout(function(){
-				if (rippleItem.parentElement) return;
+				if (!rippleItem.parentElement) return;
 				rippleItem.parentElement.removeChild(rippleItem);
 			}, 1000);
 		}
