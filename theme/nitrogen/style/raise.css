@@ -1,32 +1,32 @@
 /* start raise */
 
-.raise-1 {
-	box-shadow: 0 0 0.1em 0 rgba(0,0,0,0.25);
+.raise--1 {
+	box-shadow: 0 0.1em 0.1em 0 rgba(0,0,0,0.25);
 	z-index: 1;
 }
 
-.raise-2 {
-	box-shadow: 0 0 0.25em 0 rgba(0,0,0,0.25);
+.raise--2 {
+	box-shadow: 0 0.25em 0.25em 0 rgba(0,0,0,0.25);
 	z-index: 2;
 }
 
-.raise-3 {
-	box-shadow: 0 0 0.4em 0 rgba(0,0,0,0.25);
+.raise--3 {
+	box-shadow: 0 0.4em 0.4em 0 rgba(0,0,0,0.25);
 	z-index: 3;
 }
 
-.raise-4 {
-	box-shadow: 0 0 0.6em 0 rgba(0,0,0,0.25);
+.raise--4 {
+	box-shadow: 0 0.6em 0.6em 0 rgba(0,0,0,0.25);
 	z-index: 4;
 }
 
-.raise-5 {
-	box-shadow: 0 0 0.8em 0 rgba(0,0,0,0.25);
+.raise--5 {
+	box-shadow: 0 0.8em 0.8em 0 rgba(0,0,0,0.25);
 	z-index: 5;
 }
 
-.raise-6 {
-	box-shadow: 0 0 1em 0 rgba(0,0,0,0.25);
+.raise--6 {
+	box-shadow: 0 1em 1em 0 rgba(0,0,0,0.25);
 	z-index: 6;
 }
 

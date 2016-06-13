@@ -1,4 +1,4 @@
-<div class="navigation navigation--sidebar raise-5">
+<div class="navigation navigation--sidebar raise--3">
 	<div class="navigation-item">
 		<a class="navigation-link js-ripple" href="<?=url('home');?>"><span class="icon icon--home"></span> Home</a>
 	</div>

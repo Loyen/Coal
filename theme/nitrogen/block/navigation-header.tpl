@@ -1,4 +1,4 @@
-<div class="navigation navigation--header raise-3">
+<div class="navigation navigation--header raise--2">
 	<div class="navigation-item">
 		<a class="navigation-link js-ripple js-toggle" data-target=".siteNavigation" data-class="is-open" data-blur=".document" data-blurClass="is-blur" href="javascript:void(0);"><span class="icon icon--menu"></span></a>
 	</div>
