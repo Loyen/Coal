@@ -42,7 +42,7 @@ Coal.behaviors.ripple = function(el) {
 		rippleItem.style.left = clickX-(rippleSize/2)+'px';
 		rippleItem.style.top = clickY-(rippleSize/2)+'px';
 
-		setTimeout(function(){rippleItem.addClass(classes.rippleActive);}, 1);
+		setTimeout(function(){rippleItem.classList.add(classes.rippleActive);}, 1);
 
 		rippleContainer.appendChild(rippleItem);
 	};
@@ -52,10 +52,10 @@ Coal.behaviors.ripple = function(el) {
 		for (var i=0; i < rippleItems.length; i++) {
 			var rippleItem = rippleItems[i];
 
-			if (rippleItem.hasClass(classes.rippleInactive)) continue;
+			if (rippleItem.classList.contains(classes.rippleInactive)) continue;
 
-			rippleItem.removeClass(classes.rippleActive);
-			rippleItem.addClass(classes.rippleInactive);
+			rippleItem.classList.remove(classes.rippleActive);
+			rippleItem.classList.add(classes.rippleInactive);
 
 			setTimeout(function(){
 				if (!rippleItem.parentElement) return;
@@ -68,8 +68,8 @@ Coal.behaviors.ripple = function(el) {
 	for (var i=0; i < items.length; i++) {
 		var item = items[i];
 
-		if (item.hasClass('js-init')) continue;
-		item.addClass('js-init');
+		if (item.classList.contains('js-ripple-init')) continue;
+		item.classList.add('js-ripple-init');
 
 		var clickEvent = function(e) {
 			click(this, e);
