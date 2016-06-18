@@ -4,14 +4,14 @@ var Coal = function(){};
 Coal.browserSupport = function(){
 	var htmlElement = document.documentElement;
 
-	htmlElement.addClass('js');
+	htmlElement.classList.add('js');
 
 	if (htmlElement.style.hasOwnProperty('transform')) {
-		htmlElement.addClass('css-transform');
+		htmlElement.classList.add('css-transform');
 	}
 
 	if (htmlElement.style.hasOwnProperty('transition')) {
-		htmlElement.addClass('css-transition');
+		htmlElement.classList.add('css-transition');
 	}
 };
 
@@ -27,7 +27,7 @@ Coal.attachBehaviors = function(el){
 
 Coal.init = function(){
 	Coal.browserSupport();
-	Coal.attachBehaviors(document.body);
+	Coal.attachBehaviors(document.documentElement);
 }; // Coal.init
 
 document.addEventListener("DOMContentLoaded", function(e) {

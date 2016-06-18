@@ -13,21 +13,21 @@ Coal.behaviors.toggle = function(el) {
 		var blurTarget = (item.getAttribute('data-blur') ? document.querySelector(item.getAttribute('data-blur')) : null);
 		var blurToggleClass = (item.getAttribute('data-blurClass') ? item.getAttribute('data-blurClass') : 'is-blur');
 
-		if (target.hasClass(toggleClass)) {
-			target.removeClass(toggleClass);
+		if (target.classList.contains(toggleClass)) {
+			target.classList.remove(toggleClass);
 		} else {
 			if (toggleGroup) {
 				var toggleGroupItems = el.querySelectorAll('[data-group='+toggleGroup+'].'+toggleClass);
 				for (i=0; i < toggleGroupItems.length; i++) {
 					var toggleGroupItem = toggleGroupItems[i];
-					toggleGroupItem.removeClass(toggleClass);
+					toggleGroupItem.classList.remove(toggleClass);
 				}
 			}
 
-			target.addClass(toggleClass);
+			target.classList.add(toggleClass);
 
 			if (blurTarget) {
-				blurTarget.addClass(blurToggleClass);
+				blurTarget.classList.add(blurToggleClass);
 
 				// Do not trigger blurTarget click when clicking on target
 				var onTargetClick = function(e) {
@@ -40,8 +40,8 @@ Coal.behaviors.toggle = function(el) {
 					e.stopPropagation();
 					e.preventDefault();
 
-					target.removeClass(toggleClass);
-					blurTarget.removeClass(blurToggleClass);
+					target.classList.remove(toggleClass);
+					blurTarget.classList.remove(blurToggleClass);
 
 					target.removeEventListener('mouseup', onTargetClick);
 					blurTarget.removeEventListener('mouseup', onBlur);
@@ -57,8 +57,8 @@ Coal.behaviors.toggle = function(el) {
 	for (var i=0; i < items.length; i++) {
 		var item = items[i];
 
-		if (item.hasClass('js-toggle-init')) continue;
-		item.addClass('js-toggle-init');
+		if (item.classList.contains('js-toggle-init')) continue;
+		item.classList.add('js-toggle-init');
 
 		item.addEventListener('mouseup', function(e) {
 			click(this, e);

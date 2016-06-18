@@ -1,5 +1,7 @@
 <?php
-class dashboardModule extends \Coal\Core\module {
+namespace Coal\Module;
+
+class dashboard extends \Coal\Core\module {
 	public function _authorization() {
 		return false;
 	}

@@ -7,7 +7,6 @@
 		"style/all.css"
 	],
 	"scripts": [
-		"script/common.js",
 		"script/coal.js",
 		"script/coal.ripple.js",
 		"script/coal.toggle.js"
