@@ -10,5 +10,13 @@
 	"admin": {
 		"module": "dashboard",
 		"action": "index"
+	},
+	"user/login": {
+		"module": "user",
+		"action": "login"
+	},
+	"user/register": {
+		"module": "user",
+		"action": "register"
 	}
 }
