@@ -39,8 +39,8 @@ class dispatcher {
 	}
 
 	public function initModule($module, $action) {
-		$module_name = $module.'Module';
-		$module_path = MODULE.$module_name.'.php';
+		$module_name = '\\Coal\\Module\\'.$module;
+		$module_path = MODULE.$module.'.php';
 		if (file_exists($module_path))
 			require_once($module_path);
 

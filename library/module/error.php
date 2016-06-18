@@ -1,6 +1,9 @@
 <?php
-class errorModule extends \Coal\Core\module {
+namespace Coal\Module;
+
+class error extends \Coal\Core\module {
 	public $helpers = ['http'];
+
 	public function index($code = 404) {
 		if ($this->httpHelper->setStatusCode($code) !== false) {
 			$codes = $this->httpHelper->getStatusCodes();
