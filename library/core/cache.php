@@ -23,6 +23,7 @@ class cache {
 	}
 
 	public function read($key, $default = null) {
+		$key = md5($key);
 		$data = $this->cacheHandler->read($key);
 
 		if (!$data)
@@ -32,10 +33,12 @@ class cache {
 	}
 
 	public function delete($key) {
+		$key = md5($key);
 		return $this->cacheHandler->delete($key);
 	}
 
 	public function write($key, $value, $expiration = 0) {
+		$key = md5($key);
 		return $this->cacheHandler->write($key, $value, $expiration);
 	}
 }
