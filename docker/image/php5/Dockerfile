@@ -1,7 +1,8 @@
 FROM coal/baseimage
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive && \
 	apt-get install -y \
 	php5 \
 	php5-apcu \

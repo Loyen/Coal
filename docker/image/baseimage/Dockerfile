@@ -1,9 +1,8 @@
 FROM ubuntu:trusty
 
-ENV
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive && \
 	apt-get clean
 
 CMD bash
